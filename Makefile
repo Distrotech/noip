@@ -2,9 +2,9 @@ TGT=noip2
 CC=gcc
 PKG=noip-2.1.tgz
 
-PREFIX=/usr/local
+PREFIX=/usr
 CONFDIR=${PREFIX}/etc
-BINDIR=${PREFIX}/bin
+BINDIR=${PREFIX}/sbin
 
 # these defines are for Linux
 LIBS=
@@ -25,11 +25,11 @@ ${TGT}: Makefile ${TGT}.c
 	${CC} -Wall -g -D${ARCH} -DPREFIX=\"${PREFIX}\" ${TGT}.c -o ${TGT} ${LIBS}
 
 install: ${TGT} 
-	if [ ! -d ${BINDIR} ]; then mkdir -p ${BINDIR};fi
-	if [ ! -d ${CONFDIR} ]; then mkdir -p ${CONFDIR};fi
-	cp ${TGT} ${BINDIR}/${TGT}
-	${BINDIR}/${TGT} -C -c /tmp/no-ip2.conf
-	mv /tmp/no-ip2.conf ${CONFDIR}/no-ip2.conf
+	if [ ! -d $(DESTDIR)${BINDIR} ]; then mkdir -p $(DESTDIR)${BINDIR};fi
+	if [ ! -d $(DESTDIR)${CONFDIR} ]; then mkdir -p $(DESTDIR)${CONFDIR};fi
+	cp ${TGT} $(DESTDIR)${BINDIR}/${TGT}
+#	${BINDIR}/${TGT} -C -c /tmp/no-ip2.conf
+#	mv /tmp/no-ip2.conf ${CONFDIR}/no-ip2.conf
 
 package: ${TGT}
 	rm  -f *.bak
@@ -43,3 +43,5 @@ clean:
 	rm -f *o
 	rm -f binaries/*
 	rm -f ${TGT}
+
+all: ${TGT}

@@ -1592,7 +1592,7 @@ void dump_buffer(int x)
 ///////////////////////////////////////////////////////////////////////////
 int dynamic_update()
 {
-	int	i, x, is_group, retval, response;
+	int	x, is_group, retval, response;
 	char	*p, *pos, tbuf[LINELEN], ipbuf[LINELEN], gname[LINELEN];
 
 	retval = SUCCESS;
@@ -1636,7 +1636,6 @@ int dynamic_update()
 	    }
 	    if (*p == ':') {
 		*p++ = 0;		// now p points at return code
-		i = atoi(p);
 		if (is_group) {
 		    snprintf(gname, LINELEN-1, "group[%s]", ourname);
 		    ourname = gname;
@@ -1823,9 +1822,8 @@ void *Malloc(int size)
 //////////////////////////////////////////////////////////////////////////
 int domains(char *p)
 {
-        int x;
 
-        x = get_xml_field("name", p, dmn);
+        get_xml_field("name", p, dmn);
         return 0;
 }
 //////////////////////////////////////////////////////////////////////////
@@ -1835,7 +1833,7 @@ int hosts(char *p)
         char    gnm[LINELEN];
         char    locn[LINELEN];
         char    *d, *dm;
-        int     x, y, z;
+        int     x, z;
 
         x = get_xml_field("name", p, fqdn);
         d = &fqdn[x];
@@ -1846,7 +1844,7 @@ int hosts(char *p)
                 *d++ = *dm++;
             *d = 0;
         }
-        y = get_xml_field("group", p, gnm);
+        get_xml_field("group", p, gnm);
         z = get_xml_field("location", p, locn);
 	if ((z > 0) && (x > 0)) {               // does location exist?
 	    *d++ = '@';                         // append @location
